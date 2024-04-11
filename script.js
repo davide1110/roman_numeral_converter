@@ -65,11 +65,33 @@ function dummyFunc(inputNumber) {
           dummyFunc2(key+1,key, "XC", val, lastDigit, "");
     }
     if(numberVal >= 100) {
+        if(numberVal)
+       // let concatValue = "C";
         key = parseInt(calc.toString().substring(0, calc.toString().length - 2));
+        let numberValString = numberVal.toString();
+        let finalDigitNumber = parseInt(numberValString.substring(1, numberValString.length));
+        let finalValue = "";
+        if(finalDigitNumber <= 39) {
+            concatValue = "X";
+            finalValue="C";
+            key = numberValString.substring(1, numberValString.length);
+            key = key.replace("0","");
+
+          
+        }
+      /*  if(finalDigitNumber >= 40) {
+            concatValue = "X";
+            finalValue="C";
+            key = numberValString.substring(1, numberValString.length);
+            key = key.replace("0","");
+
+          
+        }*/
         if (romanNumbers[calc.toString()] != undefined) {
             dummyFunc3(calc,lastDigit)
+            return;
           }
-          dummyFunc2(1,key, "", val, lastDigit, "C");
+          dummyFunc2(1,key, finalValue, val, lastDigit, concatValue);
     }
 
 }
