@@ -34,19 +34,33 @@ function convertToRomanNumber() {
 function showRomanNumberResult(inputNumber) {
     let val = inputNumber.value;
     let numberVal = parseInt(val);
+    let numberLength = val.length;
+    let numberVal1 = getNumberVal(val, numberLength);
+    
 
     let result = "";
     if (romanNumbers[val] !== undefined) {
-        showRomanNumberFromKeys(val)
+        showRomanNumberFromKey(val)
         return;
     }
 
     let lastDigit = parseInt(val.substring(1, val.length));
     let calc = numberVal - lastDigit;
-    let key = parseInt(calc.toString().substring(0, calc.toString().length - 1));
-    let finalValue = "";
+    let key = getKey(calc);
+  //  let finalValue = "";
     console.log("KEYY: " + key);
-    if(numberVal <=39) {
+    
+   /*  if(finalDigitNumber <= 39) {
+        concatValue = "X";
+        finalValue="C";
+     
+        showRomanNumberFromCalc(1,key, finalValue, val, lastDigit, concatValue);
+        return;
+
+      
+    } */
+    if(numberVal1 <=39) {
+        let finalValue = getFinalValue();
         showRomanNumberFromCalc(1,key, "", val, lastDigit, "X");
         return;
     }
@@ -66,8 +80,6 @@ function showRomanNumberResult(inputNumber) {
           showRomanNumberFromCalc(key+1,key, "XC", val, lastDigit, "");
     }
     if(numberVal >= 100) {
-      //  if(numberVal)
-       // let concatValue = "C";
         key = parseInt(calc.toString().substring(0, calc.toString().length - 2));
         let numberValString = numberVal.toString();
         let finalDigitNumber = parseInt(numberValString.substring(1, numberValString.length));
@@ -95,20 +107,40 @@ function showRomanNumberResult(inputNumber) {
             showRomanNumberFromCalc(6,key, "L", val, lastDigit, "X");
             return;
         }
-      /*  if(finalDigitNumber >= 40) {
-            concatValue = "X";
-            finalValue="C";
-            key = numberValString.substring(1, numberValString.length);
-            key = key.replace("0","");
-
-          
-        }*/
+        if(finalDigitNumber >= 90 && finalDigitNumber <= 99) {
+           
+                let middle = parseInt(lastDigit.toString().substring(1, lastDigit.toString().length));
+                let diff = lastDigit - middle;
+                if (romanNumbers[diff.toString()] != undefined
+             && romanNumbers[calc.toString()] != undefined) {
+    
+                   // let middleDigit = last
+                    showRomanNumberFromKeys(calc,diff, middle)
+                    return;
+                }
+              showRomanNumberFromCalc(key+1,key, "XC", val, lastDigit, "");
+              return;
+        }
+   
         if (romanNumbers[calc.toString()] != undefined) {
             showRomanNumberFromKeys(calc,lastDigit)
             return;
           }
           showRomanNumberFromCalc(1,key, finalValue, val, lastDigit, concatValue);
     }
+
+}
+
+function getNumberVal(val, numberLength) {
+    return parseInt(val.substring(0, (numberLength - (numberLength - 2))));
+}
+function getKey(calc) {
+    let calcString = calc.toString();
+    let trimmedCalcString = calcString.substring(0, (calcString.length - (calcString.length - 1)));
+    return parseInt(trimmedCalcString);
+}
+
+function getFinalValue() {
 
 }
 
@@ -126,7 +158,7 @@ function showRomanNumberFromCalc(index, key, finalValue, val, lastDigit, concatV
     return;
 }
 
-function showRomanNumberFromKeys(val) {
+function showRomanNumberFromKey(val) {
       const result = romanNumbers[val];
     showResult(result);
 }
