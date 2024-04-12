@@ -21,25 +21,23 @@ let romanNumbers = {
 
 
 function convertToRomanNumber() {
-    initRomanMap();
     let inputNumber = document.querySelector("#number");
     const stringResult = validateNumber(inputNumber);
     if (stringResult !== undefined) {
         showResult(stringResult);
         return;
     }
-    dummyFunc(inputNumber);
+    showRomanNumberResult(inputNumber);
 
 }
 
-function dummyFunc(inputNumber) {
+function showRomanNumberResult(inputNumber) {
     let val = inputNumber.value;
     let numberVal = parseInt(val);
 
     let result = "";
     if (romanNumbers[val] !== undefined) {
-        result = romanNumbers[val];
-        showResult(result);
+        showRomanNumberFromKeys(val)
         return;
     }
 
@@ -49,23 +47,23 @@ function dummyFunc(inputNumber) {
     let finalValue = "";
     console.log("KEYY: " + key);
     if(numberVal <=39) {
-        dummyFunc2(1,key, "", val, lastDigit, "X");
+        showRomanNumberFromCalc(1,key, "", val, lastDigit, "X");
     }
-    if(numberVal >= 40) {
+    if(numberVal >= 40 && numberVal <= 89) {
         if (romanNumbers[calc.toString()] != undefined) {
-          dummyFunc3(calc,lastDigit)
+            showRomanNumberFromKeys(calc,lastDigit)
         }
-        dummyFunc2(6,key, "L", val, lastDigit, "X");
+        showRomanNumberFromCalc(6,key, "L", val, lastDigit, "X");
     }
-    if(numberVal >= 99) {
+    if(numberVal >= 90 && numberVal <= 99) {
        
         if (romanNumbers[calc.toString()] != undefined) {
-            dummyFunc3(calc,lastDigit)
+            showRomanNumberFromKeys(calc,lastDigit)
           }
-          dummyFunc2(key+1,key, "XC", val, lastDigit, "");
+          showRomanNumberFromCalc(key+1,key, "XC", val, lastDigit, "");
     }
     if(numberVal >= 100) {
-        if(numberVal)
+      //  if(numberVal)
        // let concatValue = "C";
         key = parseInt(calc.toString().substring(0, calc.toString().length - 2));
         let numberValString = numberVal.toString();
@@ -74,8 +72,10 @@ function dummyFunc(inputNumber) {
         if(finalDigitNumber <= 39) {
             concatValue = "X";
             finalValue="C";
-            key = numberValString.substring(1, numberValString.length);
+            key = numberValString.substring(2, numberValString.length);
             key = key.replace("0","");
+            showRomanNumberFromCalc(1,key, finalValue, val, lastDigit, concatValue);
+            return;
 
           
         }
@@ -88,19 +88,15 @@ function dummyFunc(inputNumber) {
           
         }*/
         if (romanNumbers[calc.toString()] != undefined) {
-            dummyFunc3(calc,lastDigit)
+            showRomanNumberFromKeys(calc,lastDigit)
             return;
           }
-          dummyFunc2(1,key, finalValue, val, lastDigit, concatValue);
+          showRomanNumberFromCalc(1,key, finalValue, val, lastDigit, concatValue);
     }
 
 }
-function dummyFunc3(calc, lastDigit) {
-   let result = romanNumbers[calc.toString()] + romanNumbers[lastDigit.toString()];
-    showResult(result);
-    return;
-}
-function dummyFunc2(index, key, finalValue, val, lastDigit, concatValue) {
+
+function showRomanNumberFromCalc(index, key, finalValue, val, lastDigit, concatValue) {
     for (let i = index; i <= key; i++) {
         finalValue += concatValue;
     }
@@ -114,9 +110,15 @@ function dummyFunc2(index, key, finalValue, val, lastDigit, concatValue) {
     return;
 }
 
-function initRomanMap() {
-    //   romanNumbers.set("1")
+function showRomanNumberFromKeys(val) {
+      const result = romanNumbers[val];
+    showResult(result);
 }
+function showRomanNumberFromKeys(calc, lastDigit) {
+    const result = romanNumbers[calc.toString()] + romanNumbers[lastDigit.toString()];
+    showResult(result);
+ }
+
 
 
 function validateNumber(inputNumber) {
