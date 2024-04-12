@@ -46,7 +46,7 @@ function showRomanNumberResult(inputNumber) {
 
     let lastDigit = parseInt(val.substring(1, val.length));
     let calc = numberVal - lastDigit;
-    let key = getKey(calc);
+    let key = getKey(numberVal1);
   //  let finalValue = "";
     console.log("KEYY: " + key);
     
@@ -132,11 +132,14 @@ function showRomanNumberResult(inputNumber) {
 }
 
 function getNumberVal(val, numberLength) {
-    return parseInt(val.substring(0, (numberLength - (numberLength - 2))));
+    return parseInt(val.substring((numberLength - 2),numberLength));
 }
 function getKey(calc) {
     let calcString = calc.toString();
-    let trimmedCalcString = calcString.substring(0, (calcString.length - (calcString.length - 1)));
+    let start = 0;
+    if(calcString.length > 2) start = 1;
+    let end = calcString.length - 1;
+    let trimmedCalcString = calcString.substring(start,end);
     return parseInt(trimmedCalcString);
 }
 
