@@ -47,86 +47,26 @@ function showRomanNumberResult(inputNumber) {
     let lastDigit = parseInt(val.substring(1, val.length));
     let calc = numberVal - lastDigit;
     let key = getKey(numberVal1);
-  //  let finalValue = "";
-    console.log("KEYY: " + key);
-    
-   /*  if(finalDigitNumber <= 39) {
-        concatValue = "X";
-        finalValue="C";
-     
-        showRomanNumberFromCalc(1,key, finalValue, val, lastDigit, concatValue);
-        return;
-
-      
-    } */
-    if(numberVal1 <=39) {
-        let finalValue = getFinalValue();
-        showRomanNumberFromCalc(1,key, "", val, lastDigit, "X");
+     if(numberVal1 <=39) {
+        let finalValue = getFinalValue(calc);
+        showRomanNumberFromCalc(1,key, finalValue, val, lastDigit, "X");
         return;
     }
-    if(numberVal >= 40 && numberVal <= 89) {
-        if (romanNumbers[calc.toString()] != undefined) {
+    if(numberVal1 >= 40 && numberVal1 <= 89) {
+        let finalValue = getFinalValue(calc, lastDigit);
+        if (romanNumbers[numberVal1.toString()] != undefined) {
             showRomanNumberFromKeys(calc,lastDigit)
             return;
         }
-        showRomanNumberFromCalc(6,key, "L", val, lastDigit, "X");
+        showRomanNumberFromCalc(6,key, finalValue, val, lastDigit, "X");
     }
-    if(numberVal >= 90 && numberVal <= 99) {
-       
-        if (romanNumbers[calc.toString()] != undefined) {
+    if(numberVal1 >= 90 && numberVal1 <= 99) {
+        let finalValue = getFinalValue(calc);
+        if (romanNumbers[numberVal1.toString()] != undefined) {
             showRomanNumberFromKeys(calc,lastDigit)
             return;
           }
-          showRomanNumberFromCalc(key+1,key, "XC", val, lastDigit, "");
-    }
-    if(numberVal >= 100) {
-        key = parseInt(calc.toString().substring(0, calc.toString().length - 2));
-        let numberValString = numberVal.toString();
-        let finalDigitNumber = parseInt(numberValString.substring(1, numberValString.length));
-        let finalValue = "";
-        if(finalDigitNumber <= 39) {
-            concatValue = "X";
-            finalValue="C";
-            key = numberValString.substring(1, numberValString.length-1);
-            //key = key.replace("0","");
-            showRomanNumberFromCalc(1,key, finalValue, val, lastDigit, concatValue);
-            return;
-
-          
-        }
-        if(finalDigitNumber >= 40 && finalDigitNumber <= 89) {
-            let middle = parseInt(lastDigit.toString().substring(1, lastDigit.toString().length));
-            let diff = lastDigit - middle;
-            if (romanNumbers[diff.toString()] != undefined
-         && romanNumbers[calc.toString()] != undefined) {
-
-               // let middleDigit = last
-                showRomanNumberFromKeys(calc,diff, middle)
-                return;
-            }
-            showRomanNumberFromCalc(6,key, "L", val, lastDigit, "X");
-            return;
-        }
-        if(finalDigitNumber >= 90 && finalDigitNumber <= 99) {
-           
-                let middle = parseInt(lastDigit.toString().substring(1, lastDigit.toString().length));
-                let diff = lastDigit - middle;
-                if (romanNumbers[diff.toString()] != undefined
-             && romanNumbers[calc.toString()] != undefined) {
-    
-                   // let middleDigit = last
-                    showRomanNumberFromKeys(calc,diff, middle)
-                    return;
-                }
-              showRomanNumberFromCalc(key+1,key, "XC", val, lastDigit, "");
-              return;
-        }
-   
-        if (romanNumbers[calc.toString()] != undefined) {
-            showRomanNumberFromKeys(calc,lastDigit)
-            return;
-          }
-          showRomanNumberFromCalc(1,key, finalValue, val, lastDigit, concatValue);
+          showRomanNumberFromCalc(key+1,key, finalValue, val, lastDigit, "");
     }
 
 }
@@ -143,8 +83,27 @@ function getKey(calc) {
     return parseInt(trimmedCalcString);
 }
 
-function getFinalValue() {
+function getFinalValue(calc, lastDigit) {
+   let calcString = calc.toString();
+   if(romanNumbers[calcString] !== undefined) {
+      if(lastDigit !== 0) {
+        let middle = parseInt(lastDigit.toString().substring(1, lastDigit.toString().length));
+        let diff = lastDigit - middle;
+        if(romanNumbers[diff.toString()] === undefined) {
+            if(diff >= 50 && diff <= 89) {
+                return romanNumbers[calcString] + "L";
+             }
+        }
+        return romanNumbers[calcString] + romanNumbers[diff.toString()];
+      }
+      return romanNumbers[calcString];
+   }
+    if(calc >= 50 && calc <= 89) {
+      return "L";
+   }
 
+   
+  return "";
 }
 
 function showRomanNumberFromCalc(index, key, finalValue, val, lastDigit, concatValue) {
@@ -156,9 +115,18 @@ function showRomanNumberFromCalc(index, key, finalValue, val, lastDigit, concatV
         showResult(result);
         return;
     }
+    if(lastDigit.toString().length > 1) {
+    let middle = parseInt(lastDigit.toString().substring(1, lastDigit.toString().length));
+    let diff = lastDigit - middle;
+    //result = finalValue + romanNumbers[lastDigit.toString()];
+    result = finalValue + romanNumbers[middle.toString()];
+    showResult(result);
+    return;
+    }
     result = finalValue + romanNumbers[lastDigit.toString()];
     showResult(result);
     return;
+    
 }
 
 function showRomanNumberFromKey(val) {
@@ -172,7 +140,7 @@ function showRomanNumberFromKeys(calc, lastDigit) {
 
  function showRomanNumberFromKeys(calc, middleDigit, lastDigit) {
     let result = "";
-    if(lastDigit !== 0) {
+    if(lastDigit !== 0 && lastDigit !== undefined) {
         result = romanNumbers[calc.toString()] +
         romanNumbers[middleDigit.toString()]+ romanNumbers[lastDigit.toString()];
         showResult(result);
