@@ -48,7 +48,7 @@ function showRomanNumberResult(inputNumber) {
     let calc = numberVal - lastDigit;
     let key = getKey(numberVal1);
     if (numberVal1 <= 39) {
-        let finalValue = getFinalValue(calc,0);
+        let finalValue = getFinalValue(calc);
         showRomanNumberFromCalc(1, key, finalValue, val, lastDigit, "X");
         return;
     }
@@ -86,100 +86,100 @@ function getKey(calc) {
 function getFinalValue(calc, lastDigit) {
     let calcString = calc.toString();
     let val = "";
-    if(calc >= 100 && calc <= 399) {
-       let key = getKey(calc);
-       for (let i = 1; i <= key; i++) {
-        val += "C";
-    }
-       
+    if (calc >= 200 && calc <= 399) {
+        let key = parseInt(calcString.substring(0, calcString.length - 2));
+        for (let i = 1; i <= key; i++) {
+            val += "C";
+        }
+        return getFinalValueWithNumBetweenFiftyAndNineteenine(val, lastDigit);
+
     }
     if (romanNumbers[calcString] !== undefined && calcString.length > 2) {
-        if (lastDigit !== 0) {
+        if (lastDigit !== 0 && lastDigit !== undefined) {
             let middle = parseInt(lastDigit.toString().substring(1, lastDigit.toString().length));
             let diff = lastDigit - middle;
             if (romanNumbers[diff.toString()] === undefined) {
-                if (diff >= 50 && diff <= 89) {
-                    return romanNumbers[calcString] + "L";
-                }
-                if (diff >= 90 && diff <= 99) {
-                    return romanNumbers[calcString] + "XC";
-                }
+                return getFinalValueWithNumBetweenFiftyAndNineteenine(diff, calcString);
             }
             return romanNumbers[calcString] + romanNumbers[diff.toString()];
         }
         return romanNumbers[calcString];
     }
-    if (calc >= 50 && calc <= 89) {
-        return val + "L";
-    }
-    if (calc >= 90 && calc <= 99) {
-        return val + "XC";
-    }
+    return getFinalValueWithNumBetweenFiftyAndNineteenine(calc);
 
 
-    return "";
-}
-
-function showRomanNumberFromCalc(index, key, finalValue, val, lastDigit, concatValue) {
-    for (let i = index; i <= key; i++) {
-        finalValue += concatValue;
+    function getFinalValueWithNumBetweenFiftyAndNineteenine(calc, key) {
+        let val = "";
+        if (romanNumbers[key] !== undefined) val = romanNumbers[key];
+        if (key !== undefined && romanNumbers[key] === undefined) val = key;
+        if (calc >= 50 && calc <= 89) {
+            return val + "L";
+        }
+        if (calc >= 90 && calc <= 99) {
+            return val + "XC";
+        }
     }
-    if (val.endsWith("0")) {
-        result = finalValue;
+  }
+    function showRomanNumberFromCalc(index, key, finalValue, val, lastDigit, concatValue) {
+        for (let i = index; i <= key; i++) {
+            finalValue += concatValue;
+        }
+        if (val.endsWith("0")) {
+            result = finalValue;
+            showResult(result);
+            return;
+        }
+        if (lastDigit.toString().length > 1) {
+            let middle = parseInt(lastDigit.toString().substring(1, lastDigit.toString().length));
+            result = finalValue + romanNumbers[middle.toString()];
+            showResult(result);
+            return;
+        }
+        result = finalValue + romanNumbers[lastDigit.toString()];
         showResult(result);
         return;
+
     }
-    if (lastDigit.toString().length > 1) {
-        let middle = parseInt(lastDigit.toString().substring(1, lastDigit.toString().length));
-        result = finalValue + romanNumbers[middle.toString()];
+
+    function showRomanNumberFromKey(val) {
+        const result = romanNumbers[val];
         showResult(result);
-        return;
     }
-    result = finalValue + romanNumbers[lastDigit.toString()];
-    showResult(result);
-    return;
+    function showRomanNumberFromKeys(calc, lastDigit) {
+        const result = romanNumbers[calc.toString()] + romanNumbers[lastDigit.toString()];
+        showResult(result);
+    }
 
-}
-
-function showRomanNumberFromKey(val) {
-    const result = romanNumbers[val];
-    showResult(result);
-}
-function showRomanNumberFromKeys(calc, lastDigit) {
-    const result = romanNumbers[calc.toString()] + romanNumbers[lastDigit.toString()];
-    showResult(result);
-}
-
-function showRomanNumberFromKeys(calc, middleDigit, lastDigit) {
-    let result = "";
-    if (lastDigit !== 0 && lastDigit !== undefined) {
+    function showRomanNumberFromKeys(calc, middleDigit, lastDigit) {
+        let result = "";
+        if (lastDigit !== 0 && lastDigit !== undefined) {
+            result = romanNumbers[calc.toString()] +
+                romanNumbers[middleDigit.toString()] + romanNumbers[lastDigit.toString()];
+            showResult(result);
+            return;
+        }
         result = romanNumbers[calc.toString()] +
-            romanNumbers[middleDigit.toString()] + romanNumbers[lastDigit.toString()];
+            romanNumbers[middleDigit.toString()];
+
         showResult(result);
-        return;
     }
-    result = romanNumbers[calc.toString()] +
-        romanNumbers[middleDigit.toString()];
-
-    showResult(result);
-}
 
 
 
-function validateNumber(inputNumber) {
-    if (inputNumber === null || inputNumber.value === "") {
-        return "Please enter a valid number.";
+    function validateNumber(inputNumber) {
+        if (inputNumber === null || inputNumber.value === "") {
+            return "Please enter a valid number.";
+        }
+        let numValue = parseInt(inputNumber.value);
+        if (numValue <= 0) {
+            return "Please enter a number greater than or equal to 1.";
+        }
+        if (numValue >= 4000) {
+            return "Please enter a number less than or equal to 3999.";
+        }
     }
-    let numValue = parseInt(inputNumber.value);
-    if (numValue <= 0) {
-        return "Please enter a number greater than or equal to 1.";
-    }
-    if (numValue >= 4000) {
-        return "Please enter a number less than or equal to 3999.";
-    }
-}
-function showResult(message) {
-    let output = document.querySelector("#output");
-    output.textContent = message;
+    function showResult(message) {
+        let output = document.querySelector("#output");
+        output.textContent = message;
 
-}
+    }
