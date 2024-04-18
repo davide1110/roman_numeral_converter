@@ -118,10 +118,20 @@ function getFinalValue(calc, lastDigit) {
         if (calc >= 90 && calc <= 99) {
             return val + "XC";
         }
+        if(calc >= 500 && calc <= 890) {
+           return "D" + getFinalValueBetweenFiveHundredAndEighteenNineHundred(calc); 
+        }
         return val;
     }
   }
+
+  function getFinalValueBetweenFiveHundredAndEighteenNineHundred(calc) {
+    if(calc >= 600 && calc <= 699) return "CL";
+    if(calc >= 700 && calc <=799 ) return "CCL";
+    if(calc >= 800 && calc <= 890) return "CCCL"; 
+  }
     function showRomanNumberFromCalc(index, key, finalValue, val, lastDigit, concatValue) {
+        let result="";
         for (let i = index; i <= key; i++) {
             finalValue += concatValue;
         }
@@ -146,10 +156,10 @@ function getFinalValue(calc, lastDigit) {
         const result = romanNumbers[val];
         showResult(result);
     }
-    function showRomanNumberFromKeys(calc, lastDigit) {
+    /* function showRomanNumberFromKeys(calc, lastDigit) {
         const result = romanNumbers[calc.toString()] + romanNumbers[lastDigit.toString()];
         showResult(result);
-    }
+    } */
 
     function showRomanNumberFromKeys(calc, middleDigit, lastDigit) {
         let result = "";
