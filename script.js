@@ -91,7 +91,7 @@ function getFinalValue(calc, lastDigit) {
         for (let i = 1; i <= key; i++) {
             val += "C";
         }
-        return getFinalValueWithNumBetweenFiftyAndNineteenine(val, lastDigit);
+        return getFinalValueWithNumBetweenFiftyAndNineteenine(lastDigit, val);
 
     }
     if (romanNumbers[calcString] !== undefined && calcString.length > 2) {
@@ -118,6 +118,7 @@ function getFinalValue(calc, lastDigit) {
         if (calc >= 90 && calc <= 99) {
             return val + "XC";
         }
+        return val;
     }
   }
     function showRomanNumberFromCalc(index, key, finalValue, val, lastDigit, concatValue) {
