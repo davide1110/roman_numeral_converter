@@ -16,7 +16,9 @@ let romanNumbers = {
     "400": "CD",
     "500": "D",
     "900": "CM",
-    "1000": "M"
+    "1000": "M",
+    "2000": "MM",
+    "3000": "MMM"
 }
 
 
@@ -97,7 +99,7 @@ function getFinalValue(calc, lastDigit) {
         return getFinalValueWithNumBetweenFiftyAndNineteenine(lastDigit, val);
 
     }
-    if (lastDigit >= 200 && lastDigit <= 399 && calcString.length > 3) {
+    if (lastDigit >= 200 && lastDigit <= 399 && calcString.length === 3) {
         let key = parseInt(lastDigit.toString().substring(0, lastDigit.toString().length - 2));
         val = "M";
         for (let i = 1; i <= key; i++) {
@@ -106,7 +108,17 @@ function getFinalValue(calc, lastDigit) {
         return getFinalValueWithNumBetweenFiftyAndNineteenine(lastDigit, val);
 
     }
-    if (romanNumbers[calcString] !== undefined && calcString.length > 2) {
+    if (lastDigit >= 200 && lastDigit <= 399 && calcString.length > 3) {
+        let key = parseInt(lastDigit.toString().substring(0, lastDigit.toString().length - 2));
+        val = "M";
+        lastDigit = lastDigit.toString().substring(1,lastDigit.toString().length);
+        for (let i = 1; i <= key; i++) {
+            val += "C";
+        }
+        return getFinalValueWithNumBetweenFiftyAndNineteenine(lastDigit, val);
+
+    }
+    if (romanNumbers[calcString] !== undefined && calcString.length === 3) {
         if (lastDigit !== 0 && lastDigit !== undefined) {
             let middle = parseInt(lastDigit.toString().substring(1, lastDigit.toString().length));
             let diff = lastDigit - middle;
@@ -114,6 +126,19 @@ function getFinalValue(calc, lastDigit) {
                 return getFinalValueWithNumBetweenFiftyAndNineteenine(diff, calcString);
             }
             return romanNumbers[calcString] + romanNumbers[diff.toString()];
+        }
+        return romanNumbers[calcString];
+    }
+    if (romanNumbers[calcString] !== undefined && calcString.length > 3) {
+        if (lastDigit !== 0 && lastDigit !== undefined) {
+          //  lastDigit = lastDigit.toString().substring(1,lastDigit.toString().length);
+            let middle = parseInt(lastDigit.toString().substring(1, lastDigit.toString().length));
+            let diff = lastDigit - middle;
+            let middle2 = parseInt(middle.toString().substring(0, middle.toString().length - 1))
+            if (romanNumbers[diff.toString()] === undefined) {
+                return getFinalValueWithNumBetweenFiftyAndNineteenine(diff, calcString);
+            }
+            return romanNumbers[calcString] + romanNumbers[diff.toString()]+ romanNumbers[(middle-middle2).toString()];
         }
         return romanNumbers[calcString];
     }
@@ -135,6 +160,9 @@ function getFinalValue(calc, lastDigit) {
         if (calc >= 90 && calc <= 99) {
             return val + "XC";
         }
+        /* if(calc >= 200 && calc <=499) {
+            return 
+        } */
         if (calc >= 500 && calc <= 890) {
             return "D" + getFinalValueBetweenFiveHundredAndEighteenNineHundred(calc, lastDigit);
         }
