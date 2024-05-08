@@ -1,0 +1,86 @@
+h2 {
+    color: white;
+    font-size: 30px;
+    /* text-align: center; */
+}
+h4 {
+    color: white;
+  /*   text-align: center;*/
+}
+html {
+  
+    height: 100%;
+    width: 100%;
+  
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#input-form{
+  flex:50%
+}
+#number {
+    width: 200px;
+    border-radius: 6px;
+    height: 25px;
+    border-color: white;
+    outline: none;
+    /* text-align: center; */
+}
+
+button {
+    cursor: pointer;
+    border-radius: 6px;
+    color: white;
+    border: none;
+    height: 25px;
+    background-color: rgba(176, 156, 116, 0.8);
+    
+}
+
+#output {
+    margin-top: 4px;
+    font-weight: bold;
+    color:white;
+   /*  text-align: center; */
+    font-size: 30px;
+}
+
+#container-1{
+  
+   
+    height: 500px;
+    width: 400px;
+  
+    text-align: center;
+    background-size: 600px 1000px;
+    background-image: url('img/light-wood.jpg') ;
+ /* background-position: center; */
+background-repeat: no-repeat;
+    /* background-color: #EEE; */
+   /*  background-attachment: fixed;
+    background-position: center; */
+   
+}
+#container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+   
+    height: 500px;
+    width: 400px;
+  
+  
+    /* background-color: #EEE; */
+   /*  background-attachment: fixed;
+    background-position: center; */
+   
+}
+body{
+     background-image: url('img/wood.jpg') ;
+     background-size: cover;
+     background-color: #EEE;
+     background-attachment: fixed;
+     background-position: center;
+    background-repeat: no-repeat; 
+ }

@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Roman Numeral Converter</title>
-    <link rel="stylesheet" href=".css">
+    <link rel="stylesheet" href="style.css" />
     <script src="script.js"></script>
-</head>
-<body>
-    <div id="input-form">
-        <input type="number" name="" id="number" min="0" max="3999">
-        <button type="button" onclick="convertToRomanNumber()" id="convert-btn">Convert</button>
+  </head>
+  <body>
+    <div id="container-1">
+      <div id="container">
+        <!-- <img id="container"> -->
+        <div><h2>Roman number converter</h2></div>
+        <div><h4>Enter an arabic number:</h4></div>
+        <div id="input-form">
+          <input type="number" name="" id="number" min="0" max="3999" />
+          <button
+            type="button"
+            onclick="convertToRomanNumber()"
+            id="convert-btn"
+          >
+            Romanize
+          </button>
+        </div>
+        <div id="output"></div>
+      </div>
     </div>
-    <div id="output">
-    </div>
-</body>
+  </body>
 </html>
